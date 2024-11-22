@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Galaga_H">
+      <UniqueIdentifier>{c058433e-5278-422d-8cff-e25351ae74dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Galaga_CPP">
+      <UniqueIdentifier>{9952ba34-431d-4bd7-ab8e-f0554c5b38fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL_Framework.cpp">
@@ -59,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="PhysicsManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartScreen.cpp">
+      <Filter>Galaga_CPP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="PhysicsHelper.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScreen.h">
+      <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

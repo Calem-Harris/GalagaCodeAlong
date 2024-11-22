@@ -43,6 +43,8 @@ namespace SDLFramework {
     void GameManager::Update() {
         mInputManager->Update();
 
+        mStartScreen->Update();
+
         if (mInputManager->KeyDown(SDL_SCANCODE_W)) {
             
         }
@@ -74,7 +76,7 @@ namespace SDLFramework {
     void GameManager::Render() {
         //This is the old frame we need to clear
         mGraphics->ClearBackBuffer();
-
+        mStartScreen->Render();
 
         //Actually showing everthing that we have told to render
         mGraphics->Render();
@@ -104,11 +106,16 @@ namespace SDLFramework {
             PhysicsManager::CollisionFlags::Friendly |
             PhysicsManager::CollisionFlags::FriendlyProjectile);
 
+        //Creating Screens
+        mStartScreen = new StartScreen();
+
         //Creating GameObjects
     }
 
     GameManager::~GameManager() {
         //Release Variables
+        delete mStartScreen;
+        mStartScreen = nullptr;
 
         //Release Modules
         Graphics::Release();
