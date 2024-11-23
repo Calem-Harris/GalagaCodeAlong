@@ -96,6 +96,7 @@ namespace SDLFramework {
         mInputManager = InputManager::Instance();
         mAudioManager = AudioManager::Instance();
         mPhysicsManager = PhysicsManager::Instance();
+        mRandom = Random::Instance();
 
         //Create my Physics Layers
         mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Friendly,
@@ -110,6 +111,23 @@ namespace SDLFramework {
         mStartScreen = new StartScreen();
 
         //Creating GameObjects
+
+        std::cout << "Random Int Test: " << mRandom->RandomInt() << std::endl;
+        std::cout << "Random Int Test: " << mRandom->RandomInt() << std::endl;
+        std::cout << "Random Int Test: " << mRandom->RandomInt() << std::endl;
+
+        std::cout << "Random Float Test: " << mRandom->RandomFloat() << std::endl;
+        std::cout << "Random Float Test: " << mRandom->RandomFloat() << std::endl;
+        std::cout << "Random Float Test: " << mRandom->RandomFloat() << std::endl;
+
+        std::cout << "Random Range(int) Test: " << mRandom->RandomRange(0, 10) << std::endl;
+        std::cout << "Random Range(int) Test: " << mRandom->RandomRange(0, 10) << std::endl;
+        std::cout << "Random Range(int) Test: " << mRandom->RandomRange(0, 10) << std::endl;
+
+        std::cout << "Random Range(float) Test: " << mRandom->RandomRange(0.0f, 10.0f) << std::endl;
+        std::cout << "Random Range(float) Test: " << mRandom->RandomRange(0.0f, 10.0f) << std::endl;
+        std::cout << "Random Range(float) Test: " << mRandom->RandomRange(0.0f, 10.0f) << std::endl;
+
     }
 
     GameManager::~GameManager() {
@@ -135,6 +153,9 @@ namespace SDLFramework {
 
         PhysicsManager::Release();
         mPhysicsManager = nullptr;
+
+        Random::Release();
+        mRandom = nullptr;
 
         //Quit SDl Subsystems
         SDL_Quit();

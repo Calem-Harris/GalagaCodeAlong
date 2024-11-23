@@ -4,6 +4,13 @@ StartScreen::StartScreen() {
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
 
+	//Screen Animation Variables
+	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT);
+	mAnimationEndPos = Vec2_Zero;
+	mAnimationTotalTime = 5.0f;
+	mAnimationTimer = 0.0f;
+	mAnimationDone = false;
+
 	//Top Bar
 	mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 80.0f);
 	mPlayerOne = new Texture("1UP", "emulogic.ttf", 32, { 200, 0, 0 });
@@ -22,11 +29,14 @@ StartScreen::StartScreen() {
 	//Logo Entities
 	mLogoHolder = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.32);
 	mLogo = new Texture("GalagaLogo.png", 0, 0, 360, 180);
+	mAnimatedLogo = new AnimatedTexture("GalagaLogo.png", 0, 0, 360, 180, 3, 0.5f, AnimatedTexture::Vertical);
 
 	mLogoHolder->Parent(this);
 	mLogo->Parent(mLogoHolder);
+	mAnimatedLogo->Parent(mLogoHolder);
 
 	mLogo->Position(Vec2_Zero);
+	mAnimatedLogo->Position(Vec2_Zero);
 
 	//Play Bar Entities
 	mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5, Graphics::SCREEN_HEIGHT * 0.55f);
@@ -43,6 +53,11 @@ StartScreen::StartScreen() {
 	mTwoPlayerMode->Position(0.0f, 35.0f);
 	mCursor->Position(-175.0f, -35.0f);
 
+	//Selected Mode Variables
+	mSelectedMode = 0;
+	mCursorOffsetPos = Vector2(0.0f, 70.0f);
+	mCursorStartPos = mCursor->Position(Local);
+
 	//Bottom Bar Entites
 	mBottomBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
 	mNamco = new Texture("namco", "namco__.ttf", 36, { 200, 0, 0 });
@@ -57,9 +72,50 @@ StartScreen::StartScreen() {
 	mNamco->Position(Vec2_Zero);
 	mDates->Position(0.0f, 90.0f);
 	mRights->Position(0.0f, 170.0f);
+
+	//Position Start Screen
+	Position(mAnimationStartPos);
 }
 
-void StartScreen::Update() { }
+void StartScreen::ChangeSelectedMode(int change) {
+	mSelectedMode += change;
+
+	if (mSelectedMode < 0) {
+		//Set the mode to our last mode option
+		mSelectedMode = 1;
+	} 
+	else if (mSelectedMode > 1) {
+		mSelectedMode = 0;
+	}
+
+	mCursor->Position(mCursorStartPos + mCursorOffsetPos * (float)mSelectedMode);
+}
+
+void StartScreen::Update() {
+	if (!mAnimationDone) {
+		mAnimationTimer += mTimer->DeltaTime();
+		Position(Lerp(mAnimationStartPos, mAnimationEndPos, mAnimationTimer / mAnimationTotalTime));
+
+		if (mAnimationTimer >= mAnimationTotalTime) {
+			mAnimationDone = true;
+		}
+
+		if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN) ||
+			mInputManager->KeyPressed(SDL_SCANCODE_UP)) {
+			mAnimationTimer = mAnimationTotalTime;
+		}
+	}
+	else {
+		mAnimatedLogo->Update();
+
+		if (mInputManager->KeyPressed(SDL_SCANCODE_DOWN)) {
+			ChangeSelectedMode(1);
+		}
+		else if (mInputManager->KeyPressed(SDL_SCANCODE_UP)) {
+			ChangeSelectedMode(-1);
+		}
+	}
+}
 
 void StartScreen::Render() {
 	//Top Bar Entity
@@ -68,7 +124,13 @@ void StartScreen::Render() {
 	mHiScore->Render();
 
 	//Logo Entity
-	mLogo->Render();
+	if (!mAnimationDone) {
+		mLogo->Render();
+	}
+	else {
+		mAnimatedLogo->Render();
+	}
+
 
 	//Play Bar Entity
 	mOnePlayerMode->Render();

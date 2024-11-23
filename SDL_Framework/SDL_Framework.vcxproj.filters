@@ -69,6 +69,15 @@
     <ClCompile Include="StartScreen.cpp">
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="StarLayer.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graphics.h">
@@ -120,6 +129,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StartScreen.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="StarLayer.h">
       <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>
