@@ -112,22 +112,6 @@ namespace SDLFramework {
 
         //Creating GameObjects
 
-        std::cout << "Random Int Test: " << mRandom->RandomInt() << std::endl;
-        std::cout << "Random Int Test: " << mRandom->RandomInt() << std::endl;
-        std::cout << "Random Int Test: " << mRandom->RandomInt() << std::endl;
-
-        std::cout << "Random Float Test: " << mRandom->RandomFloat() << std::endl;
-        std::cout << "Random Float Test: " << mRandom->RandomFloat() << std::endl;
-        std::cout << "Random Float Test: " << mRandom->RandomFloat() << std::endl;
-
-        std::cout << "Random Range(int) Test: " << mRandom->RandomRange(0, 10) << std::endl;
-        std::cout << "Random Range(int) Test: " << mRandom->RandomRange(0, 10) << std::endl;
-        std::cout << "Random Range(int) Test: " << mRandom->RandomRange(0, 10) << std::endl;
-
-        std::cout << "Random Range(float) Test: " << mRandom->RandomRange(0.0f, 10.0f) << std::endl;
-        std::cout << "Random Range(float) Test: " << mRandom->RandomRange(0.0f, 10.0f) << std::endl;
-        std::cout << "Random Range(float) Test: " << mRandom->RandomRange(0.0f, 10.0f) << std::endl;
-
     }
 
     GameManager::~GameManager() {
