@@ -128,6 +128,9 @@ namespace SDLFramework {
 			return false;
 		}
 
+		//Uncomment the below line to change the background to white for position testing
+		//SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
 		if (TTF_Init() == -1) {
 			std::cerr << "Unable to initialize SDL_ttf! TTF Error " << TTF_GetError() << std::endl;
 			return false;

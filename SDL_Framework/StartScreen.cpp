@@ -4,13 +4,6 @@ StartScreen::StartScreen() {
 	mTimer = Timer::Instance();
 	mInputManager = InputManager::Instance();
 
-	//Screen Animation Variables
-	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT);
-	mAnimationEndPos = Vec2_Zero;
-	mAnimationTotalTime = 5.0f;
-	mAnimationTimer = 0.0f;
-	mAnimationDone = false;
-
 	//Top Bar
 	mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 80.0f);
 	mPlayerOne = new Texture("1UP", "emulogic.ttf", 32, { 200, 0, 0 });
@@ -86,8 +79,22 @@ StartScreen::StartScreen() {
 	mDates->Position(0.0f, 90.0f);
 	mRights->Position(0.0f, 170.0f);
 
-	//Position Start Screen
+	//Screen Animation Variables
+	ResetAnimation();
+}
+
+void StartScreen::ResetAnimation() {
+	mAnimationStartPos = Vector2(0.0f, Graphics::SCREEN_HEIGHT);
+	mAnimationEndPos = Vec2_Zero;
+	mAnimationTotalTime = 5.0f;
+	mAnimationTimer = 0.0f;
+	mAnimationDone = false;
+
 	Position(mAnimationStartPos);
+}
+
+int StartScreen::SelectedMode() {
+	return mSelectedMode;
 }
 
 void StartScreen::ChangeSelectedMode(int change) {
