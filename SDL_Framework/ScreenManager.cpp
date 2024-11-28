@@ -51,6 +51,7 @@ void ScreenManager::Update() {
 			//We want to switch from the start screen to the play screen
 			mCurrentScreen = Play;
 			mStartScreen->ResetAnimation();
+			mPlayScreen->StartNewGame();
 		}
 		break;
 

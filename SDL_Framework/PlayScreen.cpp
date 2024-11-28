@@ -21,6 +21,17 @@ PlayScreen::~PlayScreen() {
 	mSideBar = nullptr;
 }
 
+void PlayScreen::StartNewGame() {
+	mSideBar->SetHighScore(645987);
+	mSideBar->SetShips(2);
+	//This is PURELY FOR QUICK TESTING
+	StartNextLevel();
+}
+
+void PlayScreen::StartNextLevel() {
+	mSideBar->SetLevel(75);
+}
+
 void PlayScreen::Update() {
 	mSideBar->Update();
 }
