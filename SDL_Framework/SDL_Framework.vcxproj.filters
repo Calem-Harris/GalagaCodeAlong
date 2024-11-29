@@ -102,6 +102,9 @@
     <ClCompile Include="PlaySideBar.cpp">
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">

@@ -25,10 +25,11 @@ private:
 	float mReadyLabelOffScreen;
 
 	Texture* mStageLabel;
+	Scoreboard* mStageNumber;
 	float mStageLabelOnScreen;
 	float mStageLabelOffScreen;
 
-	float LabelTimer;
+	float mLabelTimer;
 
 	void StartStage();
 };

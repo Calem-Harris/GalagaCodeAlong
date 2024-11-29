@@ -1,6 +1,5 @@
 #pragma once
-#include "BackgroundStars.h"
-#include "PlaySideBar.h"
+#include "Level.h"
 
 using namespace SDLFramework;
 
@@ -21,4 +20,15 @@ private:
 
 	BackgroundStars* mStars;
 	PlaySideBar* mSideBar;
+
+	Texture* mStartLabel;
+
+	Level* mLevel;
+
+	float mLevelStartTimer;
+	float mLevelStartDelay;
+
+	bool mGameStarted;
+	bool mLevelStarted;
+	int mCurrentStage;
 };
