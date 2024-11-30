@@ -67,6 +67,7 @@ Player::~Player() {
 }
 
 void Player::Visible(bool visible) {
+	std::cout << "Visible: " << visible << std::endl;
 	mVisible = visible;
 }
 
@@ -86,8 +87,12 @@ int Player::Lives() {
 	return mLives;
 }
 
-bool Player::WasHit() {
-	return mWasHit;
+//TODO: Temporary functionality. Hit() will be what runs this functionality
+void Player::WasHit() {
+	mLives -= 1;
+	mAnimating = true;
+	mDeathAnimation->ResetAnimation();
+	mAudio->PlaySFX("SFX/PlayerExplosion.wav");
 }
 
 bool Player::IgnoreCollisions() {

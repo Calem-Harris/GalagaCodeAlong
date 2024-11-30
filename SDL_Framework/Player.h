@@ -23,7 +23,7 @@ public:
 
 	void AddScore(int change);
 
-	bool WasHit();
+	void WasHit();
 
 	//Inherited from PhysEntity
 	bool IgnoreCollisions() override;
