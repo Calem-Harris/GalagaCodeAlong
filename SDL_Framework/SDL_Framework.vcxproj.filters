@@ -108,6 +108,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">
@@ -189,6 +192,9 @@
       <Filter>Galaga_H</Filter>
     </ClInclude>
     <ClInclude Include="Level.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
       <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,6 +20,18 @@ void Player::HandleMovement() {
 	Position(pos);
 }
 
+void Player::HandleFiring() {
+	if (mInput->KeyPressed(SDL_SCANCODE_SPACE)) {
+		for (int i = 0; i < MAX_BULLETS; i++) {
+			if (!mBullets[i]->Active()) {
+				mBullets[i]->Fire(Position());
+				mAudio->PlaySFX("SFX/Fire.wav");
+				break;
+			}
+		}
+	}
+}
+
 Player::Player() {
 	mTimer = Timer::Instance();
 	mInput = InputManager::Instance();
@@ -52,6 +64,10 @@ Player::Player() {
 	AddCollider(new BoxCollider(Vector2(20.0f, 37.0f)), Vector2(-18.0f, 10.0f));
 
 	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Friendly);
+	
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i] = new Bullet(true);
+	}
 }
 
 Player::~Player() {
@@ -64,6 +80,11 @@ Player::~Player() {
 
 	delete mDeathAnimation;
 	mDeathAnimation = nullptr;
+
+	for (auto bullet : mBullets) {
+		delete bullet;
+		bullet = nullptr;
+	}
 }
 
 void Player::Visible(bool visible) {
@@ -115,7 +136,12 @@ void Player::Update() {
 	else {
 		if (Active()) {
 			HandleMovement();
+			HandleFiring();
 		}
+	}
+
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Update();
 	}
 }
 
@@ -129,5 +155,9 @@ void Player::Render() {
 		}
 
 		PhysEntity::Render();
+	}
+
+	for (int i = 0; i < MAX_BULLETS; i++) {
+		mBullets[i]->Render();
 	}
 }
