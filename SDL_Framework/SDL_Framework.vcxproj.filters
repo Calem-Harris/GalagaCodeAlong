@@ -120,6 +120,12 @@
     <ClCompile Include="Formation.cpp">
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
+    <ClCompile Include="Butterfly.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Wasp.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">
@@ -213,6 +219,12 @@
       <Filter>Galaga_H</Filter>
     </ClInclude>
     <ClInclude Include="Formation.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Butterfly.h">
+      <Filter>Galaga_H</Filter>
+    </ClInclude>
+    <ClInclude Include="Wasp.h">
       <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,10 +51,8 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	Position(sPaths[mCurrentPath][0]);
 
 	mTexture = nullptr;
-	mTexture->Parent(this);
-	mTexture->Position(Vec2_Zero);
 
-	mSpeed = 100.0f;
+	mSpeed = 450.0f;
 }
 
 Enemy::~Enemy() {
@@ -125,7 +123,8 @@ void Enemy::HandleFlyInState() {
 	if (mCurrentWaypoint < sPaths[mCurrentPath].size()) {
 		Vector2 dist = sPaths[mCurrentPath][mCurrentWaypoint] - Position();
 		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-		Rotate(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
+		//TODO: Testing a fix for enemies being beyblades
+		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
 		if ((sPaths[mCurrentPath][mCurrentWaypoint] - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
 			//We have made it to the next waypoint
