@@ -88,7 +88,6 @@ Player::~Player() {
 }
 
 void Player::Visible(bool visible) {
-	std::cout << "Visible: " << visible << std::endl;
 	mVisible = visible;
 }
 

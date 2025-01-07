@@ -129,6 +129,15 @@ Enemy::Enemy(int path, int index, bool challenge) :
 	mTextures[1] = nullptr;
 
 	mSpeed = 450.0f;
+
+	mDeathAnimation = new AnimatedTexture("EnemyExplosion.png", 0, 0, 128, 128, 5, 1.0f, AnimatedTexture::Horizontal);
+	mDeathAnimation->Parent(this);
+	mDeathAnimation->Position(Vec2_Zero);
+	mDeathAnimation->SetWrapMode(AnimatedTexture::Once);
+}
+
+bool Enemy::InDeathAnimation() {
+	return mDeathAnimation->IsAnimating();
 }
 
 Enemy::~Enemy() {
@@ -138,6 +147,9 @@ Enemy::~Enemy() {
 		delete texture;
 		texture = nullptr;
 	}
+
+	delete mDeathAnimation;
+	mDeathAnimation = nullptr;
 }
 
 Enemy::States Enemy::CurrentState() {
@@ -228,6 +240,18 @@ void Enemy::HandleFlyInState() {
 
 void Enemy::HandleInFormationState() {
 	Position(LocalFormationPosition());
+
+	float rotation = Rotation();
+	if (rotation != 0.0f) {
+		if (rotation > 5.0f) {
+			float rotationSpeed = 200.0f;
+			float rotationDir = (rotation >= 180) ? 1.0f : -1.0f;
+			Rotate(rotationDir * mTimer->DeltaTime() * rotationSpeed);
+		}
+		else {
+			Rotation(0.0f);
+		}
+	}
 }
 
 void Enemy::HandleStates() {
@@ -285,6 +309,7 @@ void Enemy::RenderStates() {
 		RenderDiveState();
 		break;
 	case Dead:
+		//TODO: Render Death Texture in Dead State
 		RenderDeadState();
 		break;
 	}

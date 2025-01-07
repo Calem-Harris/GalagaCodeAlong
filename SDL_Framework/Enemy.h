@@ -25,6 +25,8 @@ public:
 
 	virtual void Dive(int type = 0);
 
+	bool InDeathAnimation();
+
 	void Update() override;
 	void Render() override;
 
@@ -36,6 +38,7 @@ protected:
 	Timer* mTimer;
 
 	Texture* mTextures[2];
+	AnimatedTexture* mDeathAnimation;
 
 	States mCurrentState;
 	Types mType;
