@@ -98,6 +98,8 @@ Level::Level(int stage, PlaySideBar* sideBar, Player* player) {
 	mCaptureDive = true;
 	mBossDiveDelay = 5.0f;
 	mBossDiveTimer = 0.0f;
+
+	Enemy::CurrentPlayer(mPlayer);
 }
 
 Level::~Level() {
@@ -169,8 +171,7 @@ void Level::HandleStartLabels() {
 void Level::HandleCollisions() {
 	if (!mPlayerHit) {
 		//Quick sanity test
-		if (InputManager::Instance()->KeyPressed(SDL_SCANCODE_X)) {
-			mPlayer->WasHit();
+		if (mPlayer->WasHit()) {
 			mSideBar->SetShips(mPlayer->Lives());
 
 			mPlayerHit = true;
@@ -215,7 +216,6 @@ void Level::HandlePlayerDeath() {
 
 void Level::HandleEnemySpawning() {
 	mSpawnTimer += mTimer->DeltaTime();
-
 	if (mSpawnTimer >= mSpawnDelay) {
 		XMLElement* element = mSpawningPatterns.FirstChildElement("Level")->FirstChild()->NextSiblingElement();
 		bool spawned = false;
@@ -229,8 +229,6 @@ void Level::HandleEnemySpawning() {
 				int path = element->IntAttribute("path");
 				XMLElement* child = element->FirstChildElement();
 
-				//This for loop is always going to give us the next/last child
-				//Based on our FlyInIndex
 				for (int i = 0; i < mCurrentFlyInIndex && child != nullptr; i++) {
 					child = child->NextSiblingElement();
 				}
@@ -241,34 +239,28 @@ void Level::HandleEnemySpawning() {
 
 					if (type.compare("Butterfly") == 0) {
 						if (!mChallengeStage) {
-							//Add Butterfly to formation
 							mFormationButterflies[index] = new Butterfly(path, index, false);
-							mButterflyCount++;
+							mButterflyCount += 1;
 						}
 						else {
-							//TODO: Change the challenge boolean to true once Challenge logic is implemented!!!
 							mEnemies.push_back(new Butterfly(path, index, false));
 						}
 					}
 					else if (type.compare("Wasp") == 0) {
 						if (!mChallengeStage) {
-							//Add Wasp to formation
 							mFormationWasp[index] = new Wasp(path, index, false, false);
-							mWaspCount++;
+							mWaspCount += 1;
 						}
 						else {
-							//TODO: Change the challenge boolean to true once Challenge logic is implemented!!!
 							mEnemies.push_back(new Wasp(path, index, false, false));
 						}
 					}
 					else if (type.compare("Boss") == 0) {
 						if (!mChallengeStage) {
-							//Add Butterfly to formation
 							mFormationBoss[index] = new Boss(path, index, false);
-							mBossCount++;
+							mBossCount += 1;
 						}
 						else {
-							//TODO: Change the challenge boolean to true once Challenge logic is implemented!!!
 							mEnemies.push_back(new Boss(path, index, false));
 						}
 					}
@@ -281,23 +273,22 @@ void Level::HandleEnemySpawning() {
 		}
 
 		if (!priorityFound) {
-			//no priorities found mean no more Spawn elements!
+			// no priorities found means no more Spawn elements
 			mSpawningFinished = true;
 		}
 		else {
 			if (!spawned) {
-				//We have Spawn elements waiting BUT we didn't spawn anything
+				// We have Spawn elements waiting, but we didn't spawn anything
 				if (!EnemyFlyingIn()) {
-					mCurrentFlyInPriority++;
+					mCurrentFlyInPriority += 1;
 					mCurrentFlyInIndex = 0;
 				}
 			}
 			else {
-				//We haven't finished spawning our element's enemies, next index!
-				mCurrentFlyInIndex++;
+				// We haven't finished spawning this element's enemies, next index!
+				mCurrentFlyInIndex += 1;
 			}
 		}
-
 		mSpawnTimer = 0.0f;
 	}
 }
@@ -306,6 +297,20 @@ bool Level::EnemyFlyingIn() {
 	for (Butterfly* butterfly : mFormationButterflies) {
 		if (butterfly != nullptr && 
 			butterfly->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
+
+	for (Wasp* wasp : mFormationWasp) {
+		if (wasp != nullptr &&
+			wasp->CurrentState() == Enemy::FlyIn) {
+			return true;
+		}
+	}
+
+	for (Boss* boss : mFormationBoss) {
+		if (boss != nullptr &&
+			boss->CurrentState() == Enemy::FlyIn) {
 			return true;
 		}
 	}
@@ -326,29 +331,27 @@ void Level::HandleEnemyFormation() {
 			}
 		}
 	}
-
-	for (Wasp* wasp : mFormationWasp) {
-		if (wasp != nullptr) {
-			wasp->Update();
-			if (wasp->CurrentState() != Enemy::Dead || wasp->InDeathAnimation()) {
+	//REMOVE: This signifies that the student looked at the code, found this tag, and removed it before submitting assignment 1
+	for (Wasp* w : mFormationWasp) {
+		if (w != nullptr) {
+			w->Update();
+			if (w->CurrentState() != Enemy::Dead || w->InDeathAnimation()) {
 				levelCleared = false;
 			}
 		}
 	}
 
-	for (Boss* boss: mFormationBoss) {
-		if (boss != nullptr) {
-			boss->Update();
-			if (boss->CurrentState() != Enemy::Dead || boss->InDeathAnimation()) {
+	for (Boss* b : mFormationBoss) {
+		if (b != nullptr) {
+			b->Update();
+			if (b->CurrentState() != Enemy::Dead || b->InDeathAnimation()) {
 				levelCleared = false;
 			}
 		}
 	}
 
 	if (!mFormation->Locked()) {
-		if (mButterflyCount == MAX_BUTTERFLIES &&
-			mWaspCount == MAX_WASPS &&
-			mBossCount == MAX_BOSSES) {
+		if (mButterflyCount == MAX_BUTTERFLIES && mWaspCount == MAX_WASPS && mBossCount == MAX_BOSSES) {
 			if (!EnemyFlyingIn()) {
 				mFormation->Lock();
 			}
@@ -359,6 +362,7 @@ void Level::HandleEnemyFormation() {
 	}
 
 	if (levelCleared) {
+		std::cout << "State Finished!" << std::endl;
 		mCurrentState = Finished;
 	}
 }
@@ -432,21 +436,29 @@ void Level::HandleEnemyDiving() {
 				if (mFormationBoss[i]->CurrentState() == Enemy::InFormation) {
 					if (!mSkipFirstBoss || (mSkipFirstBoss && skipped)) {
 						mDivingBoss = mFormationBoss[i];
-						mDivingBoss->Dive();
 
-						int index = mDivingBoss->Index();
-						int firstEscortIndex = (index % 2 == 0) ? 
-							(index * 2) : (index * 2 - 1);
-						int secondEscortIndex = firstEscortIndex + 4;
+						if (mCaptureDive) {
+							mDivingBoss->Dive(1);
+						}
+						else {
+							mDivingBoss->Dive();
 
-						if (mFormationButterflies[firstEscortIndex]->CurrentState() == Enemy::InFormation) {
-							mFormationButterflies[firstEscortIndex]->Dive(1);
+							int index = mDivingBoss->Index();
+							int firstEscortIndex = (index % 2 == 0) ?
+								(index * 2) : (index * 2 - 1);
+							int secondEscortIndex = firstEscortIndex + 4;
+
+							if (mFormationButterflies[firstEscortIndex]->CurrentState() == Enemy::InFormation) {
+								mFormationButterflies[firstEscortIndex]->Dive(1);
+							}
+							if (mFormationButterflies[secondEscortIndex]->CurrentState() == Enemy::InFormation) {
+								mFormationButterflies[secondEscortIndex]->Dive(1);
+							}
 						}
-						if (mFormationButterflies[secondEscortIndex]->CurrentState() == Enemy::InFormation) {
-							mFormationButterflies[secondEscortIndex]->Dive(1);
-						}
+						
 
 						mSkipFirstBoss = !mSkipFirstBoss;
+						mCaptureDive = !mCaptureDive;
 						break;
 					}
 					skipped = true;

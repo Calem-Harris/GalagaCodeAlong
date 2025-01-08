@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "PhysicsManager.h"
 
 std::vector<std::vector<Vector2>> Enemy::sPaths;
 Player* Enemy::sPlayer = nullptr;
@@ -116,6 +117,10 @@ void Enemy::SetFormation(Formation* formation) {
 	sFormation = formation;
 }
 
+void Enemy::CurrentPlayer(Player* player) {
+	sPlayer = player;
+}
+
 Enemy::Enemy(int path, int index, bool challenge) : 
 	mCurrentPath(path), mIndex(index), mChallengeStage(challenge) {
 	mTimer = Timer::Instance();
@@ -130,6 +135,8 @@ Enemy::Enemy(int path, int index, bool challenge) :
 
 	mSpeed = 450.0f;
 
+	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::Hostile);
+
 	mDeathAnimation = new AnimatedTexture("EnemyExplosion.png", 0, 0, 128, 128, 5, 1.0f, AnimatedTexture::Horizontal);
 	mDeathAnimation->Parent(this);
 	mDeathAnimation->Position(Vec2_Zero);
@@ -138,6 +145,18 @@ Enemy::Enemy(int path, int index, bool challenge) :
 
 bool Enemy::InDeathAnimation() {
 	return mDeathAnimation->IsAnimating();
+}
+
+bool Enemy::IgnoreCollisions() {
+	return mCurrentState == Dead;
+}
+
+void Enemy::Hit(PhysEntity* other) {
+	if (mCurrentState == InFormation) {
+		Parent(nullptr);
+	}
+
+	mCurrentState = Dead;
 }
 
 Enemy::~Enemy() {
@@ -213,7 +232,6 @@ void Enemy::HandleFlyInState() {
 	if (mCurrentWaypoint < sPaths[mCurrentPath].size()) {
 		Vector2 dist = sPaths[mCurrentPath][mCurrentWaypoint] - Position();
 		Translate(dist.Normalized() * mSpeed * mTimer->DeltaTime(), World);
-		//TODO: Testing a fix for enemies being beyblades
 		Rotation(atan2(dist.y, dist.x) * RAD_TO_DEG + 90.0f);
 
 		if ((sPaths[mCurrentPath][mCurrentWaypoint] - Position()).MagnitudeSqr() < EPSILON * mSpeed / 25.0f) {
@@ -251,6 +269,18 @@ void Enemy::HandleInFormationState() {
 		else {
 			Rotation(0.0f);
 		}
+	}
+}
+
+void Enemy::HandleDeadState() {
+	if (mDeathAnimation->IsAnimating()) {
+		mDeathAnimation->Update();
+	}
+}
+
+void Enemy::RenderDeadState() {
+	if (mDeathAnimation->IsAnimating()) {
+		mDeathAnimation->Render();
 	}
 }
 
@@ -313,4 +343,6 @@ void Enemy::RenderStates() {
 		RenderDeadState();
 		break;
 	}
+
+	PhysEntity::Render();
 }

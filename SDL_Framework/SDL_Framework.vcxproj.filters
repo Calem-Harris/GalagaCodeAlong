@@ -138,6 +138,9 @@
     <ClCompile Include="tinyxml2.cpp">
       <Filter>TinyXML</Filter>
     </ClCompile>
+    <ClCompile Include="CaptureBeam.cpp">
+      <Filter>Galaga_CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="tinyxml2.h">
       <Filter>TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="CaptureBeam.h">
+      <Filter>Galaga_H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

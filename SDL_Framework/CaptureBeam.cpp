@@ -1,4 +1,6 @@
 #include "CaptureBeam.h"
+#include "BoxCollider.h"
+#include "PhysicsManager.h"
 
 void CaptureBeam::RunAnimation() {
 	mCaptureTimer += mTimer->DeltaTime();
@@ -28,10 +30,22 @@ void CaptureBeam::RunAnimation() {
 	}
 }
 
+void CaptureBeam::Hit(PhysEntity* other) {
+	std::cout << "Capture Beam Hit" << std::endl;
+}
+
+bool CaptureBeam::IgnoreCollisions() {
+	return mCaptureTimer <= 2.1f || mCaptureTimer >= mTotalCaptureTime - 2.0;
+}
+
 CaptureBeam::CaptureBeam() :
 	AnimatedTexture("CaptureBeam.png", 0, 0, 184, 320, 3, 0.5f, Horizontal) {
 	mTotalCaptureTime = 6.0f;
 	ResetAnimation();
+
+	AddCollider(new BoxCollider(Vector2(160.0f, 60.0f)), Vector2(0.0f, -140.0f));
+
+	mId = PhysicsManager::Instance()->RegisterEntity(this, PhysicsManager::CollisionLayers::HostileProjectile);
 }
 
 CaptureBeam::~CaptureBeam() { }
@@ -43,13 +57,15 @@ void CaptureBeam::ResetAnimation() {
 }
 
 void CaptureBeam::Render() {
-	Vector2 pos = Position(World);
-	Vector2 scale = Scale(World);
+	Vector2 pos = AnimatedTexture::Position(World);
+	Vector2 scale = AnimatedTexture::Scale(World);
 
 	mDestinationRect.x = (int)(pos.x - mWidth * scale.x * 0.5f);
 	mDestinationRect.y = (int)(pos.y - mHeight * scale.y * 0.5f);
 	mDestinationRect.w = (int)(mWidth * scale.x);
 	mDestinationRect.h = mSourceRect.h;
 
-	mGraphics->DrawTexture(mTex, mClipped ? &mSourceRect : nullptr, &mDestinationRect, Rotation(World));
+	mGraphics->DrawTexture(mTex, mClipped ? &mSourceRect : nullptr, &mDestinationRect, AnimatedTexture::Rotation(World));
+
+	PhysEntity::Render();
 }
