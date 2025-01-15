@@ -4,6 +4,7 @@
 #include<SDL_ttf.h>
 #include <iostream>
 #include <string>
+//#include "glew.h"
 
 namespace SDLFramework {
 	class Graphics {
@@ -19,7 +20,7 @@ namespace SDLFramework {
 
 		SDL_Texture* LoadTexture(std::string path);
 
-		void DrawTexture(SDL_Texture* texture, SDL_Rect* srcRect = nullptr, SDL_Rect* dst_Rect = nullptr,
+		virtual void DrawTexture(SDL_Texture* texture, SDL_Rect* srcRect = nullptr, SDL_Rect* dst_Rect = nullptr,
 			float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 		SDL_Texture* CreateTextTexture(TTF_Font* font, std::string text, SDL_Color color);
@@ -27,19 +28,21 @@ namespace SDLFramework {
 		void DrawLine(float startX, float startY, float endX, float endY);
 
 		//Cleanup that happens to the area in memory that draws the next frame
-		void ClearBackBuffer();
-		void Render();
+		virtual void ClearBackBuffer() = 0;
+		virtual void Render() = 0;
 
 		Graphics();
 		~Graphics();
 
-		bool Init();
 
-	private:
+	protected:
+		virtual bool Init();
+
 		//This is going to hold the ONE instance of our Graphics class
 		static Graphics* sInstance;
 		static bool sInitialized;
 		SDL_Window* mWindow = nullptr;
 		SDL_Renderer* mRenderer = nullptr;
+		//SDL_GLContext glContext;
 	};
 }

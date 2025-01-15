@@ -1,4 +1,4 @@
-#include "Graphics.h"
+#include "SDLGraphics.h"
 
 namespace SDLFramework {
 	//This is how we initialize static members in a class
@@ -11,7 +11,7 @@ namespace SDLFramework {
 		//We are checking to see if sInstance already has an instance of Graphics stored in it
 		if (sInstance == nullptr) {
 			//If not, create a new instance of Graphics
-			sInstance = new Graphics();
+			sInstance = new SDLGraphics();
 		}
 
 		//Returns our Graphics instance AFTER making sure there is one.
@@ -55,7 +55,7 @@ namespace SDLFramework {
 
 	void Graphics::DrawTexture(SDL_Texture* texture, SDL_Rect* srcRect, SDL_Rect* dst_Rect,
 		float angle, SDL_RendererFlip flip) {
-		SDL_RenderCopyEx(mRenderer, texture, srcRect, dst_Rect, angle, nullptr, flip);
+		//SDL_RenderCopyEx(mRenderer, texture, srcRect, dst_Rect, angle, nullptr, flip);
 	}
 
 	SDL_Texture* Graphics::CreateTextTexture(TTF_Font* font, std::string text, SDL_Color color) {
@@ -85,13 +85,31 @@ namespace SDLFramework {
 		SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
 	}
 
-	void Graphics::ClearBackBuffer() {
-		SDL_RenderClear(mRenderer);
-	}
+	//void Graphics::ClearBackBuffer() {
+	//	SDL_RenderClear(mRenderer);
+	//}
 
-	void Graphics::Render() {
-		SDL_RenderPresent(mRenderer);
-	}
+	//void Graphics::Render() {
+	//	SDL_RenderPresent(mRenderer);
+
+	//	//glClearDepth(1.0f);
+	//	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//	//glEnableClientState(GL_COLOR_ARRAY);
+
+	//	////This is where we can draw shapes/primitives to the window
+	//	//glBegin(GL_TRIANGLES);
+	//	////If we want color, color NEEDS to be applied first
+	//	//glColor3f(1.0f, 0.0f, 0.0f);
+
+	//	//glVertex2f(0.0f, 0.0f);
+	//	//glVertex2f(0.0f, 500.0);
+	//	//glVertex2f(500.0f, 500.0f);
+
+	//	//glEnd();
+
+	//	//SDL_GL_SwapWindow(mWindow);
+	//}
 
 	Graphics::Graphics() : mRenderer(nullptr) {
 		sInitialized = Init();
@@ -119,7 +137,7 @@ namespace SDLFramework {
 			SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH,
 			SCREEN_HEIGHT,
-			SDL_WINDOW_SHOWN
+			SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL
 		);
 
 		if (mWindow == nullptr) {
@@ -129,12 +147,24 @@ namespace SDLFramework {
 		}
 
 		//Anything after this can assume that our Window was able to successfully create itself
+		// TODO: Maybe uncomment this if we run into problems
 		mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
 		if (mRenderer == nullptr) {
 			//We have failed to create a renderer
 			std::cerr << "Unable to get renderer. SDL_Error: " << SDL_GetError() << std::endl;
 			return false;
 		}
+
+		//glContext = SDL_GL_CreateContext(mWindow);
+		//if (glContext == nullptr) {
+		//	std::cerr << "SDL_GL_Context could not be created!" << SDL_GetError() << std::endl;
+		//	return false;
+		//}
+
+		//GLenum error = glewInit();
+		//if (error != GLEW_OK) {
+		//	std::cerr << "Could not initialize glew!" << glewGetErrorString(error) << std::endl;
+		//}
 
 		//Uncomment the below line to change the background to white for position testing
 		//SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -144,6 +174,8 @@ namespace SDLFramework {
 			return false;
 		}
 
+		//SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		//glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		//We can assume EVERYTHING has been built properly
 		return true;
 	}
