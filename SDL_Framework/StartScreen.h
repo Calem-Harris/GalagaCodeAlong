@@ -2,6 +2,7 @@
 #include "AnimatedTexture.h"
 #include "InputManager.h"
 #include "Scoreboard.h"
+#include "SDLTexture.h"
 
 using namespace SDLFramework;
 
@@ -34,30 +35,30 @@ private:
 	//Top Bar Entities
 	//Empty GameEntity/GameObject
 	GameEntity* mTopBar;
-	Texture* mPlayerOne;
-	Texture* mPlayerTwo;
-	Texture* mHiScore;
+	SDLTexture* mPlayerOne;
+	SDLTexture* mPlayerTwo;
+	SDLTexture* mHiScore;
 	Scoreboard* mPlayerOneScore;
 	Scoreboard* mPlayerTwoScore;
 	Scoreboard* mTopScore;
 
 	//Logo Entities
 	GameEntity* mLogoHolder;
-	Texture* mLogo;
+	SDLTexture* mLogo;
 	AnimatedTexture* mAnimatedLogo;
 
 	//Play Mode
 	GameEntity* mPlayModes;
-	Texture* mOnePlayerMode;
-	Texture* mTwoPlayerMode;
-	Texture* mCursor;
+	SDLTexture* mOnePlayerMode;
+	SDLTexture* mTwoPlayerMode;
+	SDLTexture* mCursor;
 	Vector2 mCursorStartPos;
 	Vector2 mCursorOffsetPos;
 	int mSelectedMode;
 
 	//Bottom Bar
 	GameEntity* mBottomBar;
-	Texture* mNamco;
-	Texture* mDates;
-	Texture* mRights;
+	SDLTexture* mNamco;
+	SDLTexture* mDates;
+	SDLTexture* mRights;
 };

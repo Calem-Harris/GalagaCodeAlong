@@ -56,11 +56,11 @@ private:
 	bool mChallengeStage;
 	bool mStageStarted;
 
-	Texture* mReadyLabel;
+	SDLTexture* mReadyLabel;
 	float mReadyLabelOnScreen;
 	float mReadyLabelOffScreen;
 
-	Texture* mStageLabel;
+	SDLTexture* mStageLabel;
 	Scoreboard* mStageNumber;
 	float mStageLabelOnScreen;
 	float mStageLabelOffScreen;
@@ -72,7 +72,7 @@ private:
 	float mRespawnTimer;
 	float mRespawnLabelOnScreen;
 
-	Texture* mGameOverLabel;
+	SDLTexture* mGameOverLabel;
 	float mGameOverDelay;
 	float mGameOverTimer;
 	float mGameOverLabelOnScreen;

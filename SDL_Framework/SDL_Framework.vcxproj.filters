@@ -34,6 +34,9 @@
     <Filter Include="TinyXML">
       <UniqueIdentifier>{d62dfd9f-855a-439b-9a21-64860a5a22b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Shaders">
+      <UniqueIdentifier>{1edd63b8-4235-48c8-8994-dab60f03a40b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SDL_Framework.cpp">
@@ -142,6 +145,15 @@
       <Filter>Galaga_CPP</Filter>
     </ClCompile>
     <ClCompile Include="SDLGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SDLTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLGraphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -257,10 +269,27 @@
     <ClInclude Include="SDLGraphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SDLTexture.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="GLGraphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Data\Level1.xml">
       <Filter>Data</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\fs.shader">
+      <Filter>Header Files\Shaders</Filter>
+    </None>
+    <None Include="Assets\Shaders\vs.shader">
+      <Filter>Header Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

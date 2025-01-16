@@ -10,7 +10,8 @@ namespace SDLFramework {
 	}
 
 	SDLGraphics::SDLGraphics() : Graphics() {
-
+		//TODO: Look into why this creates a second screen
+		//sInitialized = Init();
 	}
 
 	SDLGraphics::~SDLGraphics() { }

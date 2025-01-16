@@ -235,8 +235,8 @@ void Butterfly::RenderDiveState() {
 Butterfly::Butterfly(int path, int index, bool challenge) :
 Enemy(path, index, challenge)
 { 
-	mTextures[0] = new Texture("AnimatedEnemies.png", 0, 0, 52, 40);
-	mTextures[1] = new Texture("AnimatedEnemies.png", 52, 0, 52, 40);
+	mTextures[0] = new SDLTexture("AnimatedEnemies.png", 0, 0, 52, 40);
+	mTextures[1] = new SDLTexture("AnimatedEnemies.png", 52, 0, 52, 40);
 
 
 	for (auto texture : mTextures) {

@@ -1,11 +1,11 @@
 #pragma once
-#include "Texture.h"
+#include "SDLTexture.h"
 #include "Timer.h"
 #include "Random.h"
 
 using namespace SDLFramework;
 
-class Star : public Texture {
+class Star : public SDLTexture {
 public:
 	static void Scroll(bool scroll);
 

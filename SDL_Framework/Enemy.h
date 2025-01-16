@@ -40,7 +40,7 @@ protected:
 
 	Timer* mTimer;
 
-	Texture* mTextures[2];
+	SDLTexture* mTextures[2];
 	AnimatedTexture* mDeathAnimation;
 
 	States mCurrentState;

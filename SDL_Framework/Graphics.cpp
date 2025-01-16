@@ -1,4 +1,5 @@
 #include "SDLGraphics.h"
+#include "GLGraphics.h"
 
 namespace SDLFramework {
 	//This is how we initialize static members in a class
@@ -11,7 +12,7 @@ namespace SDLFramework {
 		//We are checking to see if sInstance already has an instance of Graphics stored in it
 		if (sInstance == nullptr) {
 			//If not, create a new instance of Graphics
-			sInstance = new SDLGraphics();
+			sInstance = new GLGraphics();
 		}
 
 		//Returns our Graphics instance AFTER making sure there is one.
@@ -155,16 +156,7 @@ namespace SDLFramework {
 			return false;
 		}
 
-		//glContext = SDL_GL_CreateContext(mWindow);
-		//if (glContext == nullptr) {
-		//	std::cerr << "SDL_GL_Context could not be created!" << SDL_GetError() << std::endl;
-		//	return false;
-		//}
-
-		//GLenum error = glewInit();
-		//if (error != GLEW_OK) {
-		//	std::cerr << "Could not initialize glew!" << glewGetErrorString(error) << std::endl;
-		//}
+		
 
 		//Uncomment the below line to change the background to white for position testing
 		//SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -173,9 +165,6 @@ namespace SDLFramework {
 			std::cerr << "Unable to initialize SDL_ttf! TTF Error " << TTF_GetError() << std::endl;
 			return false;
 		}
-
-		//SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		//glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		//We can assume EVERYTHING has been built properly
 		return true;
 	}

@@ -6,9 +6,9 @@ StartScreen::StartScreen() {
 
 	//Top Bar
 	mTopBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, 80.0f);
-	mPlayerOne = new Texture("1UP", "emulogic.ttf", 32, { 200, 0, 0 });
-	mPlayerTwo = new Texture("2UP", "emulogic.ttf", 32, { 200, 0, 0 });
-	mHiScore = new Texture("HI SCORE", "emulogic.ttf", 32, { 200, 0, 0 });
+	mPlayerOne = new SDLTexture("1UP", "emulogic.ttf", 32, { 200, 0, 0 });
+	mPlayerTwo = new SDLTexture("2UP", "emulogic.ttf", 32, { 200, 0, 0 });
+	mHiScore = new SDLTexture("HI SCORE", "emulogic.ttf", 32, { 200, 0, 0 });
 
 	//TODO: Scoreboards *can* display scores but have an odd bug with displaying Zeros.
 	//LOOK INTO THIS
@@ -34,7 +34,7 @@ StartScreen::StartScreen() {
 
 	//Logo Entities
 	mLogoHolder = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.32);
-	mLogo = new Texture("GalagaLogo.png", 0, 0, 360, 180);
+	mLogo = new SDLTexture("GalagaLogo.png", 0, 0, 360, 180);
 	mAnimatedLogo = new AnimatedTexture("GalagaLogo.png", 0, 0, 360, 180, 3, 0.5f, AnimatedTexture::Vertical);
 
 	mLogoHolder->Parent(this);
@@ -46,9 +46,9 @@ StartScreen::StartScreen() {
 
 	//Play Bar Entities
 	mPlayModes = new GameEntity(Graphics::SCREEN_WIDTH * 0.5, Graphics::SCREEN_HEIGHT * 0.55f);
-	mOnePlayerMode = new Texture("1 Player", "emulogic.ttf", 32, { 230, 230, 230 });
-	mTwoPlayerMode = new Texture("2 Player", "emulogic.ttf", 32, { 230, 230, 230 });
-	mCursor = new Texture("Cursor.png");
+	mOnePlayerMode = new SDLTexture("1 Player", "emulogic.ttf", 32, { 230, 230, 230 });
+	mTwoPlayerMode = new SDLTexture("2 Player", "emulogic.ttf", 32, { 230, 230, 230 });
+	mCursor = new SDLTexture("Cursor.png");
 
 	mPlayModes->Parent(this);
 	mOnePlayerMode->Parent(mPlayModes);
@@ -66,9 +66,9 @@ StartScreen::StartScreen() {
 
 	//Bottom Bar Entites
 	mBottomBar = new GameEntity(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.7f);
-	mNamco = new Texture("namco", "namco__.ttf", 36, { 200, 0, 0 });
-	mDates = new Texture("1981 1985 NAMCO LTD.", "emulogic.ttf", 32, { 230, 230, 230 });
-	mRights = new Texture("ALL RIGHTS RESERVED", "emulogic.ttf", 32, { 230, 230, 230 });
+	mNamco = new SDLTexture("namco", "namco__.ttf", 36, { 200, 0, 0 });
+	mDates = new SDLTexture("1981 1985 NAMCO LTD.", "emulogic.ttf", 32, { 230, 230, 230 });
+	mRights = new SDLTexture("ALL RIGHTS RESERVED", "emulogic.ttf", 32, { 230, 230, 230 });
 
 	mBottomBar->Parent(this);
 	mNamco->Parent(mBottomBar);

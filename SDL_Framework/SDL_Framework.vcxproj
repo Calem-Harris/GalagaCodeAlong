@@ -159,6 +159,7 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
     <ClCompile Include="Formation.cpp" />
     <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GLGraphics.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -171,7 +172,9 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="SDLGraphics.cpp" />
+    <ClCompile Include="SDLTexture.cpp" />
     <ClCompile Include="SDL_Framework.cpp" />
+    <ClCompile Include="ShaderUtil.cpp" />
     <ClCompile Include="Star.cpp" />
     <ClCompile Include="StarLayer.cpp" />
     <ClCompile Include="StartScreen.cpp" />
@@ -197,6 +200,7 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
     <ClInclude Include="Formation.h" />
     <ClInclude Include="GameEntity.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GLGraphics.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Level.h" />
@@ -211,6 +215,8 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="SDLGraphics.h" />
+    <ClInclude Include="SDLTexture.h" />
+    <ClInclude Include="ShaderUtil.h" />
     <ClInclude Include="Star.h" />
     <ClInclude Include="StarLayer.h" />
     <ClInclude Include="StartScreen.h" />
@@ -221,6 +227,10 @@ xcopy "$(ProjectDir)\Data\*" "$(OutDir)Data\" /y /s</Command>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="Data\Level1.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Shaders\fs.shader" />
+    <None Include="Assets\Shaders\vs.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -15,7 +15,7 @@ namespace SDLFramework {
 
 		void SetSourceRect(SDL_Rect* sourceRect);
 
-		void Render() override;
+		virtual void Render() override;
 
 	protected:
 		SDL_Texture* mTex;

@@ -6,7 +6,7 @@ void Star::Scroll(bool scroll) {
 	sScroll = scroll;
 }
 
-Star::Star(int layer) : Texture("Stars.png", 0, 0, 4, 4) {
+Star::Star(int layer) : SDLTexture("Stars.png", 0, 0, 4, 4) {
 	mTimer = Timer::Instance();
 	mRandom = Random::Instance();
 
@@ -60,6 +60,6 @@ void Star::Render() {
 		//We are running Texture's Render if we are visible
 		//We can do this because we inherit from Texture AND
 		//We have overridden the Render function
-		Texture::Render();
+		SDLTexture::Render();
 	}
 }
