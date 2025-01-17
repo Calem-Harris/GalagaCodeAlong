@@ -31,6 +31,9 @@ namespace SDLFramework {
 		virtual void ClearBackBuffer() = 0;
 		virtual void Render() = 0;
 
+		SDL_Surface* GetSurfaceTexture(std::string filepath);
+		SDL_Surface* GetSurfaceText(TTF_Font* font, std::string text, SDL_Color color);
+
 		Graphics();
 		~Graphics();
 

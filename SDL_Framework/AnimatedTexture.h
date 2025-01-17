@@ -1,10 +1,10 @@
 #pragma once
-#include "SDLTexture.h"
+#include "GLTexture.h"
 #include "Timer.h"
 
 namespace SDLFramework {
 
-	class AnimatedTexture : public SDLTexture {
+	class AnimatedTexture : public GLTexture {
 	public:
 		enum WrapMode { Once = 0, Loop };
 		enum AnimDir { Horizontal = 0, Vertical };

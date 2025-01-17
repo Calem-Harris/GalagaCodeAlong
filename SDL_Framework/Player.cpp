@@ -49,7 +49,7 @@ Player::Player() {
 	//It is NOT a coordinate location
 	mMoveBounds = Vector2(0.0f, 800.0f);
 
-	mShip = new SDLTexture("PlayerShips.png", 0, 0, 60, 64);
+	mShip = new GLTexture("PlayerShips.png", 0, 0, 60, 64);
 	mShip->Parent(this);
 	mShip->Position(Vec2_Zero);
 

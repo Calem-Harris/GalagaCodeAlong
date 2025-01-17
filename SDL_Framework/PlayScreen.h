@@ -24,7 +24,7 @@ private:
 	BackgroundStars* mStars;
 	PlaySideBar* mSideBar;
 
-	SDLTexture* mStartLabel;
+	GLTexture* mStartLabel;
 
 	Player* mPlayer;
 

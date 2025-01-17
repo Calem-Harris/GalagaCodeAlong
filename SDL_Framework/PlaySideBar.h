@@ -23,13 +23,13 @@ private:
 	Timer* mTimer;
 	AudioManager* mAudio;
 
-	SDLTexture* mBackground;
+	GLTexture* mBackground;
 
-	SDLTexture* mHighLabel;
-	SDLTexture* mScoreLabel;
+	GLTexture* mHighLabel;
+	GLTexture* mScoreLabel;
 	Scoreboard* mHighScoreBoard;
 
-	SDLTexture* mOneUpLabel;
+	GLTexture* mOneUpLabel;
 	float mBlinkTimer;
 	float mBlinkInterval;
 	bool mOneUpLabelVisible;
@@ -37,12 +37,12 @@ private:
 	Scoreboard* mPlayerOneScore;
 
 	GameEntity* mShips;
-	SDLTexture* mShipTextures[MAX_SHIP_TEXTURES];
+	GLTexture* mShipTextures[MAX_SHIP_TEXTURES];
 	Scoreboard* mTotalShipsLabel;
 	int mTotalShips;
 
 	GameEntity* mFlags;
-	std::vector<SDLTexture*> mFlagTextures;
+	std::vector<GLTexture*> mFlagTextures;
 	int mRemainingLevels;
 
 	float mFlagXOffset;

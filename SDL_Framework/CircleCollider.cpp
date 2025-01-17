@@ -6,10 +6,10 @@ namespace SDLFramework {
 
 		if (DEBUG_COLLIDERS) {
 			if (broadPhase) {
-				SetDebugTexture(new SDLTexture("BroadPhaseCollider.png"));
+				SetDebugTexture(new GLTexture("BroadPhaseCollider.png"));
 			}
 			else {
-				SetDebugTexture(new SDLTexture("CircleCollider.png"));
+				SetDebugTexture(new GLTexture("CircleCollider.png"));
 			}
 			//circle collider file size is 50px
 			mDebugTexture->Scale(Vec2_One * (radius * 2 / 50.0f));

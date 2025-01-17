@@ -24,17 +24,17 @@ namespace SDLFramework {
 	}
 
 	void GLGraphics::Render() {
-		glBegin(GL_TRIANGLES);
-		//If we want color, color NEEDS to be applied first
-		glColor3f(1.0f, 0.0f, 0.0f);
+		//glBegin(GL_TRIANGLES);
+		////If we want color, color NEEDS to be applied first
+		//glColor3f(1.0f, 0.0f, 0.0f);
 
-		glVertex2f(0.0f, 0.0f);
-		glVertex2f(0.0f, 500.0);
-		glVertex2f(500.0f, 500.0f);
+		//glVertex2f(0.0f, 0.0f);
+		//glVertex2f(0.0f, 500.0);
+		//glVertex2f(500.0f, 500.0f);
 
-		glEnd();
+		//glEnd();
 
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glDrawArrays(GL_TRIANGLES, 0, 6);
 
 		SDL_GL_SwapWindow(mWindow);
 	}
@@ -55,5 +55,51 @@ namespace SDLFramework {
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 		return true;
+	}
+
+	void GLGraphics::DrawTexture(GLTexture* glTex, SDL_Rect* srcRect,
+		SDL_Rect* dstRect, float angle, SDL_RendererFlip flip) {
+		float x = -1;
+		float y = -1;
+		float w = 1;
+		float h = 1;
+
+		if (glTex->ID == 0) {
+			glGenBuffers(1, &glTex->ID);
+		}
+
+		float vertexData[12];
+
+		//First triangle
+		vertexData[0] = x + w;
+		vertexData[1] = y + h;
+
+		vertexData[2] = x;
+		vertexData[3] = y + h;
+
+		vertexData[4] = x;
+		vertexData[5] = y;
+
+		//Second Triangle
+		vertexData[6] = x;
+		vertexData[7] = y;
+		
+		vertexData[8] = x + w;
+		vertexData[9] = y;
+
+		vertexData[10] = x + w;
+		vertexData[11] = y + h;
+
+		glBindBuffer(GL_ARRAY_BUFFER, glTex->ID);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData),
+			vertexData, GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDisableVertexAttribArray(0);
+
+		//This is us unbinding everything aka a reset to our buffer
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }

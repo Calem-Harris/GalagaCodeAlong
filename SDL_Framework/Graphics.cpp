@@ -32,11 +32,10 @@ namespace SDLFramework {
 	SDL_Texture* Graphics::LoadTexture(std::string path) {
 		SDL_Texture* tex = nullptr;
 
-		SDL_Surface* surface = IMG_Load(path.c_str());
+		SDL_Surface* surface = GetSurfaceTexture(path);
 
 		if (surface == nullptr) {
 			//This means we have failed to find the image
-			std::cerr << "Unable to load " << path << ". IMG Error: " << IMG_GetError() << std::endl;
 			return nullptr;
 		}
 
@@ -60,10 +59,9 @@ namespace SDLFramework {
 	}
 
 	SDL_Texture* Graphics::CreateTextTexture(TTF_Font* font, std::string text, SDL_Color color) {
-		SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+		SDL_Surface* surface = GetSurfaceText(font, text.c_str(), color);
 
 		if (surface == nullptr) {
-			std::cerr << "CreateTextTexture:: TTF_RenderText_Solid Error: " << SDL_GetError() << std::endl;
 			return nullptr;
 		}
 
@@ -86,31 +84,30 @@ namespace SDLFramework {
 		SDL_SetRenderDrawColor(mRenderer, color.r, color.g, color.b, color.a);
 	}
 
-	//void Graphics::ClearBackBuffer() {
-	//	SDL_RenderClear(mRenderer);
-	//}
+	SDL_Surface* Graphics::GetSurfaceTexture(std::string filepath) {
+		SDL_Surface* surface = IMG_Load(filepath.c_str());
 
-	//void Graphics::Render() {
-	//	SDL_RenderPresent(mRenderer);
+		if (surface == nullptr) {
+			std::cerr << "Unable to load " << filepath << ". Surface Error: "
+				<< IMG_GetError() << std::endl;
+			return nullptr;
+		}
 
-	//	//glClearDepth(1.0f);
-	//	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		return surface;
+	}
 
-	//	//glEnableClientState(GL_COLOR_ARRAY);
+	SDL_Surface* Graphics::GetSurfaceText(TTF_Font* font, std::string text,
+		SDL_Color color) {
+		SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
 
-	//	////This is where we can draw shapes/primitives to the window
-	//	//glBegin(GL_TRIANGLES);
-	//	////If we want color, color NEEDS to be applied first
-	//	//glColor3f(1.0f, 0.0f, 0.0f);
+		if (surface == nullptr) {
+			std::cerr << "CreateSurfaceText: TTF_RenderText_Blended Error: " <<
+				TTF_GetError() << std::endl;
+			return nullptr;
+		}
 
-	//	//glVertex2f(0.0f, 0.0f);
-	//	//glVertex2f(0.0f, 500.0);
-	//	//glVertex2f(500.0f, 500.0f);
-
-	//	//glEnd();
-
-	//	//SDL_GL_SwapWindow(mWindow);
-	//}
+		return surface;
+	}
 
 	Graphics::Graphics() : mRenderer(nullptr) {
 		sInitialized = Init();

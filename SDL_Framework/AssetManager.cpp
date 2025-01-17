@@ -123,6 +123,41 @@ namespace SDLFramework {
 		return mSFX[fullPath];
 	}
 
+	SDL_Surface* AssetManager::GetSurfaceTexture(std::string filename, bool managed) {
+		std::string fullPath = SDL_GetBasePath();
+		fullPath.append("Assets/" + filename);
+
+		if (mSurfaceTextures[fullPath] == nullptr) {
+			//We have not yet created this image
+			mSurfaceTextures[fullPath] = Graphics::Instance()->GetSurfaceTexture(fullPath);
+		}
+
+		if (mSurfaceTextures[fullPath] != nullptr && managed) {
+			mSurfaceRefCount[mSurfaceTextures[fullPath]] += 1;
+		}
+
+		return mSurfaceTextures[fullPath];
+	}
+
+	SDL_Surface* AssetManager::GetSurfaceText(std::string text, std::string filename,
+		int size, SDL_Color color, bool managed) {
+		std::stringstream ss;
+
+		ss << size << (int)color.r << (int)color.g << (int)color.b;
+		std::string key = text + filename + ss.str();
+
+		if (mSurfaceText[key] == nullptr) {
+			TTF_Font* font = GetFont(filename, size);
+			mSurfaceText[key] = Graphics::Instance()->GetSurfaceText(font, text, color);
+		}
+
+		if (mSurfaceText[key] != nullptr && managed) {
+			mSurfaceRefCount[mSurfaceText[key]] += 1;
+		}
+
+		return mSurfaceText[key];
+	}
+
 	void AssetManager::DestroyMusic(Mix_Music* music) {
 		std::map<Mix_Music*, unsigned>::iterator it = mMusicRefCount.find(music);
 
@@ -169,6 +204,30 @@ namespace SDLFramework {
 		}
 		else {
 			UnloadSFX(sfx);
+		}
+	}
+
+	void AssetManager::DestroySurface(SDL_Surface* surface) {
+		if (mSurfaceRefCount.find(surface) != mSurfaceRefCount.end()) {
+			mSurfaceRefCount[surface] -= 1;
+
+			if (mSurfaceRefCount[surface] == 0) {
+				for (auto elem : mSurfaceTextures) {
+					if (elem.second == surface) {
+						SDL_FreeSurface(elem.second);
+						mSurfaceTextures.erase(elem.first);
+						return; //work finished. Leave function
+					}
+				}
+
+				for (auto elem : mSurfaceText) {
+					if (elem.second == surface) {
+						SDL_FreeSurface(elem.second);
+						mSurfaceText.erase(elem.first);
+						return; //work finished. Leave function
+					}
+				}
+			}
 		}
 	}
 

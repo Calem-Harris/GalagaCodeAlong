@@ -1,5 +1,5 @@
 #pragma once
-#include "SDLTexture.h"
+#include "GLTexture.h"
 
 namespace SDLFramework {
 
@@ -21,8 +21,8 @@ namespace SDLFramework {
 		ColliderType mType;
 
 		static const bool DEBUG_COLLIDERS = true;
-		SDLTexture* mDebugTexture;
+		GLTexture* mDebugTexture;
 
-		void SetDebugTexture(SDLTexture* texture);
+		void SetDebugTexture(GLTexture* texture);
 	};
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "SDLTexture.h"
+#include "GLTexture.h"
 #include <vector>
 
 using namespace SDLFramework;
@@ -17,6 +17,6 @@ public:
 private:
 	void ClearBoard();
 
-	std::vector<SDLTexture*> mScore;
+	std::vector<GLTexture*> mScore;
 	SDL_Color mColor;
 };

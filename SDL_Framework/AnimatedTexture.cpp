@@ -30,7 +30,7 @@ namespace SDLFramework {
 
 	AnimatedTexture::AnimatedTexture(std::string filename, int x, int y, int width, int height,
 						int frameCount, float animationSpeed, AnimDir animationDir, bool managed) :
-						SDLTexture(filename, x, y, width, height, managed) {
+						GLTexture(filename, x, y, width, height, managed) {
 		mTimer = Timer::Instance();
 
 		mStartx = x;

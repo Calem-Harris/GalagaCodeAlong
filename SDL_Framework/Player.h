@@ -43,7 +43,7 @@ private:
 	bool mVisible;
 	bool mAnimating;
 
-	SDLTexture* mShip;
+	GLTexture* mShip;
 	AnimatedTexture* mDeathAnimation;
 
 	int mScore;

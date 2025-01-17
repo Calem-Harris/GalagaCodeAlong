@@ -156,6 +156,9 @@
     <ClCompile Include="ShaderUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MathHelper.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="ShaderUtil.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLTexture.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
