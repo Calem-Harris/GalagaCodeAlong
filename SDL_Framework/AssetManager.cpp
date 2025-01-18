@@ -1,4 +1,5 @@
 #include "AssetManager.h"
+#include <fstream>
 
 namespace SDLFramework {
 	AssetManager* AssetManager::sInstance = nullptr;
@@ -14,6 +15,57 @@ namespace SDLFramework {
 	void AssetManager::Release() {
 		delete sInstance;
 		sInstance = nullptr;
+	}
+
+	void AssetManager::LoadShader(const GLchar* vShader, const GLchar* fShader,
+		const GLchar* gShader, std::string name) {
+		std::string vFileContents;
+		std::string fFileContents;
+		std::string gFileContents;
+
+		try {
+			//Open files
+			std::fstream vShaderFile(vShader);
+			std::fstream fShaderFile(fShader);
+			std::stringstream vBuffer;
+			std::stringstream fBuffer;
+			//Read file's buffer content into its related stream
+			vBuffer << vShaderFile.rdbuf();
+			vShaderFile.close();
+			vFileContents = vBuffer.str();
+
+			fBuffer << fShaderFile.rdbuf();
+			fShaderFile.close();
+			fFileContents = fBuffer.str();
+
+			if (gShader != nullptr) {
+				std::fstream gShaderFile(gShader);
+				std::stringstream gBuffer;
+
+				gBuffer << gShaderFile.rdbuf();
+				gShaderFile.close();
+				gFileContents = gBuffer.str();
+			}
+
+			const GLchar* vShaderCode = vFileContents.c_str();
+			const GLchar* fShaderCode = fFileContents.c_str();
+			const GLchar* gShaderCode = gFileContents.c_str();
+
+			mShaders[name].Compile(vShaderCode, fShaderCode, 
+				gShader != nullptr ? gShaderCode : nullptr);
+		}
+		catch (std::exception e){
+			std::cerr << "Unable to read shader files for shader " 
+				<< name << "!" << std::endl;
+		}
+	}
+
+	ShaderUtil AssetManager::GetShaderUtil(std::string name) {
+		if (mShaders.find(name) == mShaders.end()) {
+			std::cerr << "GetShaderUtil:: Unable to find shader " <<
+				name << "!" << std::endl;
+		}
+		return mShaders[name];
 	}
 
 	AssetManager::AssetManager() {

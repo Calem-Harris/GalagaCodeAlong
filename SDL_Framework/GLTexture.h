@@ -25,6 +25,12 @@ namespace SDLFramework {
 		//The below constructor makes a TEXT object instead of using an image
 		GLTexture(std::string text, std::string fontPath, int size, SDL_Color color, bool managed = true);
 
+		void SetSurfaceTexture(std::string filename, bool managed = true);
+		void SetSurfaceTextTexture(std::string text, std::string filename,
+			int size, SDL_Color color, bool managed = true);
+
+		void Generate();
+
 		~GLTexture();
 
 		void Render() override;

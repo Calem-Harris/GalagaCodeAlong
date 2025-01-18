@@ -3,12 +3,18 @@
 #include <map>
 #include <sstream>
 #include <SDL_mixer.h>
+#include "ShaderUtil.h"
 
 namespace SDLFramework {
 	class AssetManager {
 	public:
 		static AssetManager* Instance();
 		static void Release();
+
+		ShaderUtil GetShaderUtil(std::string name);
+		void LoadShader(const GLchar* vShaderFile, const GLchar* fShaderFile,
+			const GLchar* gShaderFile = nullptr, std::string name = "Default");
+
 
 		SDL_Texture* GetTexture(std::string filename, bool managed = true);
 		SDL_Texture* GetText(std::string text, std::string filename, int size, SDL_Color color, bool managed = true);
@@ -26,6 +32,7 @@ namespace SDLFramework {
 		void DestroySurface(SDL_Surface* surface);
 
 	private:
+
 		AssetManager();
 		~AssetManager();
 
@@ -43,6 +50,8 @@ namespace SDLFramework {
 		std::map<std::string, Mix_Chunk*> mSFX;
 		std::map<std::string, SDL_Surface*> mSurfaceTextures;
 		std::map<std::string, SDL_Surface*> mSurfaceText;
+
+		std::map<std::string, ShaderUtil> mShaders;
 
 		std::map<Mix_Music*, unsigned> mMusicRefCount;
 		std::map<Mix_Chunk*, unsigned> mSFXRefCount;

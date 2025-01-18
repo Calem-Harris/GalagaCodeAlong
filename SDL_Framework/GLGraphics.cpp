@@ -53,8 +53,27 @@ namespace SDLFramework {
 
 		SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+		InitLoadShaderData();
 
 		return true;
+	}
+
+	void GLGraphics::InitLoadShaderData() {
+		std::string basepath = SDL_GetBasePath();
+		basepath.append("Assets/");
+
+		std::string vShaderPath = basepath.append("Shaders/vs.shader");
+		std::string fShaderPath = basepath.append("Shaders/fs.shader");
+
+		AssetManager::Instance()->LoadShader(vShaderPath.c_str(), fShaderPath.c_str(),
+			nullptr, "Sprite-Default");
+		mShaderUtil = AssetManager::Instance()->GetShaderUtil("Sprite-Default");
+		orthoMatrix = glm::ortho(0.0f, (float)SCREEN_WIDTH,
+			(float)SCREEN_HEIGHT, 0.0f, -1.0f, 1.0f);
+
+		mShaderUtil.Use();
+		mShaderUtil.SetVector2f("vertexPosition", glm::vec2(0, 0));
+		mShaderUtil.SetMatrix4f("proj", orthoMatrix);
 	}
 
 	void GLGraphics::DrawTexture(GLTexture* glTex, SDL_Rect* srcRect,
@@ -100,6 +119,58 @@ namespace SDLFramework {
 		glDisableVertexAttribArray(0);
 
 		//This is us unbinding everything aka a reset to our buffer
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	void GLGraphics::InitRenderData(Texture* texture, SDL_Rect* srcRect,
+		float angle, float x, float y, float w, float h, GLuint quadVAO) {
+		GLTexture* glTex = dynamic_cast<GLTexture*>(texture);
+		
+		if (!glTex) {
+			std::cerr << "TEXTURE ERROR" << std::endl;
+			return;
+		}
+
+		float height = glTex->mSurface->h;
+		float width = glTex->mSurface->w;
+
+		if (quadVAO == 0) {
+			glGenBuffers(1, &quadVAO);
+		}
+
+		glm::vec2 topRight = glm::vec2(1, 1);
+		glm::vec2 topLeft = glm::vec2(0, 1);
+		glm::vec2 bottomLeft = glm::vec2(0, 0);
+		glm::vec2 bottomRight = glm::vec2(1, 0);
+
+		if (srcRect) {
+			topRight = glm::vec2((srcRect->x + srcRect->w) / width,
+								(srcRect->y + srcRect->h) / height);
+			topLeft = glm::vec2(srcRect->x / width, 
+								(srcRect->y + srcRect->h) / height);
+			bottomLeft = glm::vec2(srcRect->x / width, srcRect->y / height);
+			bottomRight = glm::vec2((srcRect->x + srcRect->w) / width,
+									srcRect->y / height);
+		}
+
+		Vertex vertexData[6];
+		vertexData[0].SetPosition(x + w, y + h);
+		vertexData[0].SetUV(topRight.x, topRight.y);
+		vertexData[1].SetPosition(x, y + h);
+		vertexData[1].SetUV(topLeft.x, topLeft.y);
+		vertexData[2].SetPosition(x, y);
+		vertexData[2].SetUV(bottomLeft.x, bottomLeft.y);
+
+		vertexData[3].SetPosition(x, y);
+		vertexData[3].SetUV(bottomLeft.x, bottomLeft.y);
+		vertexData[4].SetPosition(x + w, y);
+		vertexData[4].SetUV(bottomRight.x, bottomRight.y);
+		vertexData[5].SetPosition(x + w, y + h);
+		vertexData[5].SetUV(topRight.x, topRight.y);
+
+		glBindBuffer(GL_ARRAY_BUFFER, quadVAO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertexData), vertexData, GL_STATIC_DRAW);
+
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 }
